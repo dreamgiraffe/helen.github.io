@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title>Helen</title>
+    
+<style>
+        body {
+            color: #000000;
+            line-height: 1.6em;
+            padding: 1em;
+            box-sizing: border-box;
+            margin: auto;
+            max-width: 72em;
+            background: #fefefe;
+            font-family: Fira Code,Monaco,Consolas,Ubuntu Mono,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,monospace,sans-serif;
+        }
+        blockquote {
+            background: #f9f9f9;
+            border-left: 10px solid #ccc;
+            margin: 1.5em 10px;
+            padding: 0.5em 10px;
+            quotes: "\201C""\201D""\2018""\2019";
+        }
+        blockquote:before {
+            color: #ccc;
+            content: open-quote;
+            font-size: 4em;
+            line-height: 0.1em;
+            margin-right: 0.25em;
+            vertical-align: -0.4em;
+        }
+        blockquote p {
+            display: inline;
+        }
+        em{
+            color: grey;
+        }
+
+        pre{
+            background-color: #eed;
+        }
+        code{
+            background-color: #eed;
+        }
+        nav {
+            margin-bottom: 20px;
+        }
+        small{
+            font-size: smaller;
+        }
+        a {
+            color: #007bff;
+        }
+
+        a:hover,
+        a:focus {
+            color: #0056b3;
+        }
+
+        a:visited{
+            color: grey;
+        }
+
+        article {
+            padding-bottom: 1em;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        body {
+            background-color: #fff;
+            color: #212529;
+        }
+
+        .comments{
+            text-align: center;
+            margin-top: 20px;
+            padding: 5px 10px;
+            font-size: .8rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: .1em;
+            z-index: 1;
+        }
+
+        .utterances{
+            max-width: 100%;
+        }
+        .hr-middle-text{
+            line-height: 1em;
+            position: relative;
+            outline: 0;
+            border: 0;
+            color: black;
+            text-align: center;
+            height: 1.5em;
+            opacity: .5;
+        }
+        .hr-middle-text:before {
+            content: '';
+            background: linear-gradient(to right, transparent, black, transparent);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+        }
+        .hr-middle-text:after{
+            content: attr(data-content);
+            position: relative;
+            display: inline-block;
+            color: black;
+            padding: 0 .5em;
+            line-height: 1.5em;
+            background-color: #fcfcfa;
+        }
+
+        /* _nav style */
+        .navbar-item::before {
+            content: "[ ";
+        }
+        .navbar-item::after {
+            content: " ]"
+        }
+        @media screen and (min-width: 300px) and (max-width: 700px) {
+            .navbar {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .navbar-item {
+                flex: 1;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+            
+            .nav-btn {
+                flex: 1;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                text-align: center;
+            }
+        }
+        /* _nav style end */
+
+        /* index style */
+        .posts-item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        @media screen and (min-width: 300px) and (max-width: 700px) {
+            .posts-item {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-around;
+                margin-bottom: 10px;
+            }
+            .posts-item > a {
+                display: inline-block;
+                width: 70%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .posts-item > small {
+                flex: 1;
+                text-align: right;
+            }
+            article{
+                letter-spacing: -0.003em;
+                line-height: 28px;
+                font-size: 18px;
+                word-wrap: break-word;
+            }
+        }
+        /* index style end */
+        .meter { 
+            height: 20px;
+            position: relative;
+            background: #555;
+            border-radius: 25px;
+            padding: 10px;
+            box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+        }
+        .meter > span {
+            display: block;
+            height: 100%;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            background-color: rgb(43,194,83);
+            background-image: linear-gradient(
+                center bottom,
+                rgb(43,194,83) 37%,
+                rgb(84,240,84) 69%
+            );
+            box-shadow: 
+                inset 0 2px 9px  rgba(255,255,255,0.3),
+                inset 0 -2px 6px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .red > span {
+            background-color: #f0a3a3;
+            background-image: linear-gradient(to bottom, #f0a3a3, #f42323);
+        }
+
+        .meter > span:after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background-image: linear-gradient(
+                -45deg, 
+                rgba(255, 255, 255, .2) 25%, 
+                transparent 25%, 
+                transparent 50%, 
+                rgba(255, 255, 255, .2) 50%, 
+                rgba(255, 255, 255, .2) 75%, 
+                transparent 75%, 
+                transparent
+            );
+            z-index: 1;
+            background-size: 50px 50px;
+            animation: move 2s linear infinite;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            overflow: hidden;
+        }
+</style>
+
+    
+<!-- Google Analytics -->
+<script>
+    console.log("hello cider")
+    //Your Google Analytics code can be pasted here
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+    
+<header>
+    <nav class="navbar">
+        <span class="navbar-item"><a class="nav-btn" href="/">Home</a></span>
+        <span class="navbar-item"><a class="nav-btn" href="/2021-09-19-english/">English Introduction</a></span>
+    </nav>
+</header>
+
+
+    <article class="posts">
+    <h1>Helen 姊妹肾移植手术的筹款代祷信</h1>
+    <p> 亲爱的兄弟姐妹，</p>
+    <p>你们好。</p>
+    <p> 在主里同为肢体的俊霞（Helen）姊妹，向你们问安。愿恩惠，平安从我们的天父和主耶稣基督归于你们。</p>
+
+    <p>我们或许相识，也或许并不认识，借着主内肢体的链接，你们看到了这封信。 先介绍一下我自己。我叫邓俊霞，1986年出生，山东聊城人，现居青岛。2014年在南京读研究生时认识主耶稣。以前，我浅显的认为，认识了主耶稣，我人生就什么都不怕了，后来我才知道，我的人生故事才刚刚开始。</p>
+    <p>就像那首赞美诗里唱的那样：</p>
+    <p>神未曾应许，天色常蓝</p>
+    <p>人生的路途花香常漫</p>
+    <p>神未曾应许，常晴无雨</p>
+    <p>常乐无痛苦，常安无虞 </p>
+    <h2>我生病了</h2>
+
+
+    <p>2019年的3月2号，是我此生难忘的一天。我上午还和朋友一起聊天，喝茶，畅想未来，下午的时候，我顺道去体检中心拿了体检报告，医生说我肾脏出了问题，有尿蛋白，潜血，还有肌酐也升高了。我问是什么问题，她给我解释半天，我没有听懂，最后她说，有可能就是尿毒症。一句话，我顿时明白了，也吓呆了，我坐在医院的长椅上无声的痛哭，拿着体检报告单，不知道该怎样面对未来。 我的世界一下子黑暗了，通往未来的门好像一下子全部关闭。我仿佛一眼看到永远，我怎样躺在病床上，毫无指望的“等待”神 接我走的那天......</p>
+    <p>擦干眼泪，我走上了漫长的就医之路。开始，我不相信我年纪轻轻就得这样的“不治之症”，我始终满怀疑问，我是神的儿女啊，为什么我要得这样的病啊，为什么不能让我早一点发现啊，为什么到“不可逆转”的时候才让我知道啊…..我常常在梦中惊醒，醒来后，想想躺在病床上的自己，然后告诉自己，这一切都不是真的，这只是一场梦而已。</p>
+
+    <p>
+        我心里有万千个为什么，也带着这样的疑问四处求医问药，结果我的病不仅没有得到控制反而越发严重, 直到2019年12月16日，我因为失血过多，导致几乎不能走路，于是进了青岛大学附属医院的急诊室。也是从那之后，开始了规律透析生活。
+    </p>
+
+    <h2>
+    从谷底站起来
+    </h2>
+
+    <p>
+        我不会告诉你，即便是我生病的时候，我的信心依然坚立，完全不是。2019年，如果用一个词形容我的内心就是：恐惧。那种潜意识里就有的恐惧，会带到梦里，会在梦里哭着醒来的恐惧，我努力的在朋友面前装作如无其事，挤出笑容挂在脸上，内心却每天翻江倒海。我不知道该怎样接受这个事实，好像只要我不接受，我有一天就会康复了似的。这一年，我的恐惧加上失去理智的到处求医问药，让我跌入深渊，病情快速恶化，我当时的状态是：没有最差，只有更差。最后不得不躺在医院里，那个时候，我甚至开始怀疑，神啊，你在哪里？你到底存在吗？你怎么忍心看你的孩子受这样的苦啊？
+    </p>
+
+    <p>
+        一夜一夜的睁眼从天黑到天明，我忘记自己曾想些什么，好像什么都想，又什么都没想，就这样，一天天过着。我知道，如果我再这样下去，我的人生就真的毁了。因为教会的安排，赋闲在医院的我开始和朋友们网上查经。那些经文字句，一句句开始进入我的脑子里，不知道从什么时候开始，我觉得自己那个死去的“灵”开始苏醒，我开始真正的去接受自己的现状，我开始“直面”自己的人生。开始思考，上帝在我这短暂的人生中要设下怎样的意义，我不知道，但是我确信，并追逐着神的脚步。
+    </p>
+
+    <h2>神在帮助我</h2>
+
+    <p>
+        在医院配型排队之后的等待是漫长的。尤其是当我在透析中出现低血压，肠痉挛等非常不适，甚至需要抢救的时候，我迫切的希望结束这样的生活，因为疼怕了。但是，我明白，在这条路上，我唯有依靠神，什么也做不了。本来，我以为等待会遥遥无期，但是没想到，医生告诉我，我今年可以去做手术。
+    </p>
+
+    <p>
+        所以，你知道吗？当我从电话里得知我可以做移植的时候，我第一反应是多么的开心！我不停地感谢医生，放下电话的时候，我放声大哭，口里不停地说着：感谢主，感谢主。室友还以为我怎么了，过来安慰我。或许只有自己经历了怎样的黑暗，才会在得知黎明要来的时候那么的开心和激动。
+    </p>
+
+    <p>
+        平静下来之后，我开始担忧，当然也有高兴。高兴的是，我终于可以做手术，每周三次，一次4个小时的透析生活可以结束了。也忐忑，这会是我人生怎样的岔路口？手术中的一切情况我不能掌握，会有什么样的风险？而且，还有一个很现实的问题，我那高达 50W 的费用该怎么办呢？
+    </p>
+
+    <p>
+        我原本想通过自己的努力攒够医药费，我开始不断的在网上招收学生教授英语，业余的时间我也开始在网上卖茶叶，但是攒起来的钱，扣除日常开销和医药费，能剩下的寥寥无几。为此，我想请求同为肢体的各教会的兄弟姐妹的帮助，诗篇18篇说：
+    </p>
+    <p>“曾有死亡的绳索缠绕我，</p>
+    <p>匪类的急流使我惊惧；</p>
+    <p>阴间的绳索缠绕我，</p>
+    <p>死亡的网罗临到我。</p>
+    <p>我在急难中求告耶和华,</p>
+    <p>向我的神呼求......"</p>
+    <p>
+        生病后，有一些朋友过来探望，一直说：“我好可怜你，这么年轻就得了这样的病....."，筹款的时候，我知道很多人希望听到一个特别”凄惨“的故事：放几张自己透析时，机器在身边，血液在管子里流动的照片，或者放一张实习的护士扎针没有按好血管，溅了我一脸血的照片......是的，那样的照片确实可能更能引起人们的共鸣。可是我不想那样，不是我佯装坚强，而是我亲身的经历，靠着我们的救主耶稣,人在苦痛之中依然有喜乐，有安慰，有平安，有笑容！
+    </p>
+
+    <p>
+        我也承认，生病的过程中，我也时常软弱，因着身体的软弱，我也常常陷入到灵命的低谷中去，可是，感谢神, 我的教会没有放弃我，在我生病的整个过程中，一直和我在一起；我的朋友没有放弃我，我曾经所在的南京小组，专门为我成立的线上代祷告小组，给了我很大的帮助；就连我现在居住的地方，也是教会 提供的，感谢主; 同时，也有各位牧师的帮助和代祷告, 因着一些原因，在此不提他们的名字，神会纪念他们，谢谢！
+    </p>
+
+    <p>
+        曾经，我去一些地方宣教, 比如尼泊尔，泰国，印度等，我一直觉得，我还有很多未完成的工作，也求主带领。所以，我很珍惜这次机会。也希望读到信的兄弟姐妹能够真切的为我祷告.
+    </p>
+
+
+    <h3>
+        祷告事项如下：
+    </h3>
+
+    <ol>
+        <li>肾源手术费用， 现在还需要40w，进度我会随时更新在下方。</li>
+        <li>为我手术的时间，医生祷告</li>
+        <li>肾源质量，我的身体的匹配和接受，没有排异反应</li>
+    </ol>
+    
+    <p>
+    <strong>
+        你是我藏身之处，你必保佑我脱离苦难，以得救的乐歌环绕我。--诗篇 32:7
+    </strong>
+    </p>
+
+    <p>
+        如果你有感动，请花一些时间为我祷告, 
+    </p>
+
+    <p>
+        你也可以在经济上支持我，可以通过以下途径：
+    </p>
+    <ol>
+        <li> Helen 是一位网络英语老师，只要你能上网的地方就可以上我的课。所以现网络预售五年课程。每半年学费 5000RMB/50节课，每节课40min. 一年的课程为9000RMB/100节课。</li>
+        <li> Helen 也是一个文字爱好者，文字质量可以先阅读本人公众号“有一匹白马”， 如果你有需要文字编辑的地方，可以找我：200元/1000字</li>
+        <li> Helen 生病前曾做高级生物医学编辑，审核过无数的SCI稿件，如果你有需要修改润色的英文SCI文章，也可以找我。300元/1000字。</li>
+        <li> Helen 手头有两部话剧，全部原创，如果你有兴趣，也可以购买全部版权。一部是关于埃里克 利帝尔的《向死而生》， 约6000字，售价5000RMB；另一部是关于伯格理的《一粒麦子》16000字，售价 20000RMB。</li>
+        <li> 当然，你也可以去我的小店购买崂山茶。小店名叫“嗨大厨”。</li>
+        <li> 如果你有感动要和我联系，我的微信同手机号：18260081223</li>
+    </ol>
+
+    <p>
+    <strong>
+        God bless you. 
+    </strong>
+    </p>
+    <p>
+    <strong>
+        Helen 2021-9-13
+    </strong>
+    </p>
+    <p>
+        <img src="/images/helen.jpg" alt="" /> 
+    </p>
+    </article>
+
+    <div>
+        <h3>筹款进度</h3>
+        <div class="meter red">
+            <span id="processing_bar"></span>
+            <p id="processing_text"></p>
+            <p id="processing_date"></p>
+        </div>
+    </div>
+
+    <!---div>
+        
+        <div class="posts-item">
+            <a href="/2021-09-19-english">Pray for Helen's Kidney Transplantation Surgery</a>
+            <small>2021-09-19</small>
+        </div>
+        
+    </div --->
+
+</body>
+<script>
+    (function(){
+        var current = 280000
+        var processing_date="2021-9-20"
+
+        var total = 400000
+        var perc = current / total * 100
+        
+        var show_total = new Intl.NumberFormat().format(total)
+        var show_current = new Intl.NumberFormat().format(current)
+        document.getElementById("processing_text").innerText=  show_current + "/" + show_total + " RMB"
+        document.getElementById("processing_bar").style.width = perc + "%"
+        document.getElementById("processing_date").innerText = "更新时间： " + processing_date
+    })()
+</script>
+</html>
